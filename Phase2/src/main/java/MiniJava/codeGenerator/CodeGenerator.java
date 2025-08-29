@@ -61,13 +61,13 @@ public class CodeGenerator {
                 assign();
                 break;
             case 10:
-
-
-            case 11:
-
-
-            case 12:
                 basicOperations(Operation.ADD);
+                break;
+            case 11:
+                basicOperations(Operation.SUB);
+                break;
+            case 12:
+                basicOperations(Operation.MULT);
                 break;
             case 13:
                 label();
