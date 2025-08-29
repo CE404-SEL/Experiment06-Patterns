@@ -444,9 +444,11 @@ maven test
 - **Observer (ناظر):** این الگو یک مکانیزم اشتراک تعریف می‌کند که به چندین شیء اجازه می‌دهد تا در مورد هر رویدادی که برای شیء مورد مشاهده آن‌ها رخ می‌دهد، مطلع شوند.
 - **Strategy (استراتژی):** این الگو به شما اجازه می‌دهد تا خانواده‌ای از الگوریتم‌ها را تعریف کرده، هر یک را در یک کلاس جداگانه قرار دهید و اشیاء آن‌ها را قابل تعویض کنید.
 
+---
+
 ### سوال دوم | الگوهای استفاده شده در فاز اول آزمایش جزو کدام دسته الگوی طراحی هستند؟
 
-### الگوهای Strategy و State در دسته الگوهای رفتاری (Behavioral Patterns) قرار می‌گیرند.
+#### الگوهای Strategy و State در دسته الگوهای رفتاری (Behavioral Patterns) قرار می‌گیرند.
 
 هر دوی این الگوها به نحوه تعامل و ارتباط بین اشیاء می‌پردازند و هدفشان افزایش انعطاف‌پذیری در نحوه انجام عملیات در زمان اجرا است.
 
@@ -455,3 +457,156 @@ maven test
 - **الگوی State (وضعیت):** این الگو به یک شیء اجازه می‌دهد تا رفتار خود را با تغییر وضعیت داخلی‌اش تغییر دهد. این الگو بر روی "چیستی" وضعیت یک شیء و رفتار متناسب با آن وضعیت تمرکز می‌کند.
 
 اگرچه ساختار این دو الگو بسیار شبیه به هم است، اما هدف و کاربرد آن‌ها متفاوت است. الگوی Strategy معمولاً توسط کلاینت (client) برای انتخاب یک الگوریتم مشخص به کار می‌رود، در حالی که در الگوی State، خود شیء (context) وضعیت داخلی خود را مدیریت کرده و رفتار خود را بر اساس آن تغییر می‌دهد.
+
+---
+
+### سوال سوم | با توجه به اینکه در سیستم مدیریت پویای مصرف انرژی هوشمند در یک ساختمان اداری، در هر زمان سیستم دقیقاً در یکی از سه حالت `Active`، `Eco Mode` یا `Shutdown` قرار دارد و سیاست محاسبه هزینه نیز می‌تواند بین تعرفه‌های `Standard`، `Peak Hours` یا `Green Mode` تغییر کند، کدام الگوی طراحی برای مدیریت این تغییرات حالت و سیاست‌ها مناسب‌تر است؟ ضمن بیان دلایل انتخاب الگوی طراحی، نحوه پیاده‌سازی آن را با توجه به مشخصات سیستم (شامل تغییر وضعیت سیستم، تغییر سیاست محاسبه هزینه، مشاهده وضعیت و محاسبه هزینه) به طور کامل توضیح دهید.
+
+با توجه به مشخصات سیستم مدیریت هوشمند انرژی، بهترین رویکرد استفاده از **ترکیب دو الگوی طراحی State و Strategy** است. این دو الگو هر کدام بخشی از نیازمندی‌های سیستم را به بهترین شکل پوشش می‌دهند و با همکاری یکدیگر، یک راه‌حل انعطاف‌پذیر و قابل توسعه ایجاد می‌کنند.
+
+در ادامه دلایل انتخاب و نحوه پیاده‌سازی کامل آن شرح داده می‌شود.
+
+### دلایل انتخاب الگوهای طراحی
+
+#### ۱. الگوی وضعیت (State Pattern) برای مدیریت وضعیت سیستم
+
+سیستم در هر لحظه دقیقاً در یکی از سه حالت `Active`، `Eco Mode` یا `Shutdown` قرار دارد. رفتار کلی سیستم، مانند میزان مصرف انرژی، قوانین عملکردی و انتقال به وضعیت‌های دیگر، به شدت به حالت فعلی آن وابسته است.
+
+**دلایل انتخاب:**
+
+- **کپسوله‌سازی رفتار وابسته به وضعیت:** به جای استفاده از دستورات شرطی طولانی و تو در تو (if/else یا switch) در کلاس اصلی برای مدیریت رفتار در هر وضعیت، الگوی State این منطق را به کلاس‌های مجزا برای هر وضعیت منتقل می‌کند. این کار کد را تمیزتر، خواناتر و قابل مدیریت‌تر می‌کند.
+- **پایبندی به اصل Open/Closed:** اگر در آینده وضعیت جدیدی مانند `Maintenance Mode` به سیستم اضافه شود، کافی است یک کلاس وضعیت جدید ایجاد کنیم بدون اینکه نیازی به تغییر کد کلاس اصلی سیستم (Context) یا وضعیت‌های دیگر باشد.
+- **مدیریت آسان انتقال وضعیت‌ها:** هر کلاس وضعیت می‌تواند مسئولیت انتقال به وضعیت بعدی را بر عهده بگیرد. برای مثال، وضعیت `Active` می‌تواند بر اساس یک رویداد (مانند عدم حضور افراد) تصمیم بگیرد که سیستم را به وضعیت `Eco Mode` منتقل کند.
+
+#### ۲. الگوی استراتژی (Strategy Pattern) برای مدیریت سیاست محاسبه هزینه
+
+سیاست محاسبه هزینه (`Standard`، `Peak Hours` یا `Green Mode`) یک الگوریتم است که می‌تواند مستقل از وضعیت فعلی سیستم تغییر کند. برای مثال، سیستم می‌تواند در وضعیت `Active` باشد و هزینه آن بر اساس تعرفه `Peak Hours` یا `Standard` محاسبه شود.
+
+**دلایل انتخاب:**
+
+- **کپسوله‌سازی الگوریتم‌ها:** الگوی استراتژی به شما اجازه می‌دهد تا هر یک از الگوریتم‌های محاسبه هزینه را در کلاس جداگانه‌ای قرار دهید.
+- **قابلیت تعویض در زمان اجرا:** این الگو به سیستم اجازه می‌دهد تا سیاست محاسبه هزینه را به صورت پویا و در زمان اجرا تغییر دهد، بدون اینکه نیازی به تغییر در کلاسی باشد که از این سیاست استفاده می‌کند.
+- **جداسازی دغدغه‌ها (Separation of Concerns):** منطق مدیریت وضعیت سیستم از منطق محاسبه هزینه کاملاً جدا می‌شود. کلاس سیستم اصلی نگران "چگونگی" محاسبه هزینه نیست، بلکه فقط این وظیفه را به شیء استراتژی فعلی واگذار می‌کند.
+
+### نحوه پیاده‌سازی کامل
+
+در اینجا یک طرح کلی از نحوه پیاده‌سازی این سیستم با استفاده از ترکیب دو الگو ارائه می‌شود.
+
+#### گام اول: تعریف رابط‌ها (Interfaces)
+
+```csharp
+public interface ISystemState
+{
+    void EnterState(EnergyManagementSystem system);
+    void Execute(EnergyManagementSystem system);
+    string GetStateName();
+}
+
+public interface ICostCalculationStrategy
+{
+    double CalculateCost(double energyConsumed);
+    string GetPolicyName();
+}
+```
+
+این بخش، قراردادهای (interfaces) اصلی را تعریف می‌کند. `ISystemState` متدهایی را مشخص می‌کند که هر کلاس وضعیت باید پیاده‌سازی کند (مانند ورود به وضعیت و اجرای رفتار آن) و `ICostCalculationStrategy` رابط مربوط به الگوریتم‌های محاسبه هزینه را تعریف می‌کند.
+
+#### گام دوم: پیاده‌سازی کلاس‌های وضعیت (Concrete States)
+
+```csharp
+public class ActiveState : ISystemState
+{
+    public void EnterState(EnergyManagementSystem system) { }
+    public void Execute(EnergyManagementSystem system) { }
+    public string GetStateName() => "Active";
+}
+
+public class EcoModeState : ISystemState
+{
+    public void EnterState(EnergyManagementSystem system) { }
+    public void Execute(EnergyManagementSystem system) { }
+    public string GetStateName() => "Eco Mode";
+}
+
+public class ShutdownState : ISystemState
+{
+    public void EnterState(EnergyManagementSystem system) { }
+    public void Execute(EnergyManagementSystem system) { }
+    public string GetStateName() => "Shutdown";
+}
+```
+
+در این قسمت، کلاس‌های مربوط به هر یک از وضعیت‌های سیستم (`Active`، `Eco Mode` و `Shutdown`) پیاده‌سازی شده‌اند. هر کلاس مسئول تعریف رفتار خاص سیستم در آن وضعیت مشخص است.
+
+#### گام سوم: پیاده‌سازی کلاس‌های استراتژی (Concrete Strategies)
+
+```csharp
+public class StandardTariffStrategy : ICostCalculationStrategy
+{
+    public double CalculateCost(double energyConsumed) => energyConsumed * 0.15;
+    public string GetPolicyName() => "Standard";
+}
+
+public class PeakHoursTariffStrategy : ICostCalculationStrategy
+{
+    public double CalculateCost(double energyConsumed) => energyConsumed * 0.25;
+    public string GetPolicyName() => "Peak Hours";
+}
+
+public class GreenModeTariffStrategy : ICostCalculationStrategy
+{
+    public double CalculateCost(double energyConsumed) => energyConsumed * 0.12;
+    public string GetPolicyName() => "Green Mode";
+}
+```
+
+این کدها کلاس‌های مربوط به سیاست‌های مختلف محاسبه هزینه را پیاده‌سازی می‌کنند. هر کلاس (`StandardTariffStrategy`، `PeakHoursTariffStrategy` و `GreenModeTariffStrategy`) شامل منطق محاسباتی منحصر به فرد خود است.
+
+#### گام چهارم: ایجاد کلاس اصلی سیستم (Context Class)
+
+```csharp
+public class EnergyManagementSystem
+{
+    private ISystemState _currentState;
+    private ICostCalculationStrategy _currentCostStrategy;
+
+    public EnergyManagementSystem()
+    {
+        _currentState = new ShutdownState();
+        _currentCostStrategy = new StandardTariffStrategy();
+    }
+
+    public void ChangeState(ISystemState newState)
+    {
+        _currentState = newState;
+        _currentState.EnterState(this);
+    }
+
+    public void SetCostCalculationPolicy(ICostCalculationStrategy newStrategy)
+    {
+        _currentCostStrategy = newStrategy;
+    }
+
+    public string GetCurrentStateName() => _currentState.GetStateName();
+    public string GetCurrentPolicyName() => _currentCostStrategy.GetPolicyName();
+
+    public void PerformOperations()
+    {
+        _currentState.Execute(this);
+    }
+
+    public double GetCurrentCost(double energyConsumed)
+    {
+        return _currentCostStrategy.CalculateCost(energyConsumed);
+    }
+}
+```
+
+این کلاس اصلی سیستم (Context) است که وضعیت و استراتژی فعلی را نگهداری می‌کند. این کلاس متدهایی برای تغییر وضعیت (`ChangeState`)، تغییر سیاست هزینه (`SetCostCalculationPolicy`)، اجرای عملیات متناسب با وضعیت فعلی (`PerformOperations`) و محاسبه هزینه بر اساس استراتژی فعلی (`GetCurrentCost`) فراهم می‌کند.
+
+### جمع‌بندی نحوه عملکرد
+
+- **تغییر وضعیت سیستم:** برای تغییر وضعیت، متد `ChangeState` از کلاس `EnergyManagementSystem` را با یک نمونه از وضعیت جدید (مثلاً `new ActiveState()`) فراخوانی می‌کنیم. این کار باعث می‌شود رفتار سیستم در فراخوانی‌های بعدی متد `PerformOperations` تغییر کند.
+- **تغییر سیاست هزینه:** برای تغییر تعرفه، متد `SetCostCalculationPolicy` را با یک نمونه از استراتژی جدید (مثلاً `new PeakHoursTariffStrategy()`) فراخوانی می‌کنیم. این تغییر بلافاصله در محاسبات بعدی هزینه از طریق متد `GetCurrentCost` اعمال می‌شود.
+- **مشاهده وضعیت:** با فراخوانی متدهای `GetCurrentStateName` و `GetCurrentPolicyName` می‌توان به راحتی وضعیت و سیاست فعلی را برای نمایش در داشبورد یا گزارش‌گیری مشاهده کرد.
+- **محاسبه هزینه:** کلاس `EnergyManagementSystem` مسئولیت محاسبه هزینه را به طور کامل به شیء استراتژی فعلی خود **واگذار (Delegate)** می‌کند. این جداسازی، هسته اصلی الگوی Strategy است.
