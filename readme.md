@@ -2,7 +2,7 @@
 
 ## فاز اول - سیستم مدیریت پویای مصرف انرژی هوشمند در یک ساختمان
 
-در این فاز قرار است با رویکرد 
+در این فاز قرار است با رویکرد
 `TDD`
 پروژه را پیاده‌سازی کنیم.
 
@@ -180,10 +180,9 @@ public class EnergyControllerTest {
 
 در ابتدا که تست‌ها را اجرا می‌کنیم هیچ کدام پاس نمی‌شوند:
 
-![](image.png)
+![](figs/image.png)
 
-
-![](image-1.png)
+![](figs/image-1.png)
 
 حال رفته‌رفته پروژه را پیاده‌سازی می‌کنیم تا تست‌ها پاس شوند.
 
@@ -228,13 +227,11 @@ public class EnergyControllerTest {
 
 ### توضیحات هر بخش:
 
-
 - Main.java → نقطه‌ی شروع (منوی کنسولی)
-  
 - core/ → بخش Context (مدیریت state + strategy)
 
 - state/ → پیاده‌سازی الگوی State (Active, Eco, Shutdown)
- 
+
 - strategy/ → پیاده‌سازی الگوی Strategy (Standard, Peak, Green)
 
 - test/ → تست‌های JUnit5 برای هر بخش، مطابق TDD
@@ -289,6 +286,7 @@ public final class ActiveState implements EnergyState {
     }
 }
 ```
+
 وضعیت Eco:
 
 ```java
@@ -310,6 +308,7 @@ public final class EcoState implements EnergyState {
 
 }
 ```
+
 وضعیت خاموش:
 
 ```java
@@ -331,9 +330,7 @@ public final class ShutdownState implements EnergyState {
 }
 ```
 
-
 #### پیاده‌سازی Strategy
-
 
 اینترفیس مربوط به این بخش:
 
@@ -390,7 +387,7 @@ public final class GreenTariff implements TariffStrategy {
 }
 ```
 
-سپس Menu ها و ماژول 
+سپس Menu ها و ماژول
 Core
 را هم پیاده‌سازی می‌کنیم که داخل سورس پروژه موجود است.
 
@@ -402,16 +399,16 @@ maven test
 
 می‌بینیم که همه‌ی تست‌های ما به درستی پاس شدند و برنامه درست کار می‌کند:
 
-![](image-2.png)
+![](figs/image-2.png)
 
 مستندات اجرای صحیح پروژه:
 
-![](image-3.png)
+![](figs/image-3.png)
 
-![](image-4.png)
+![](figs/image-4.png)
 
-![](image-5.png)
+![](figs/image-5.png)
 
-![](image-6.png)
+![](figs/image-6.png)
 
 ---
