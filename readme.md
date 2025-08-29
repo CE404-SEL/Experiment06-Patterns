@@ -690,3 +690,96 @@ public class EnergyManagementSystem
 #### ۳. در چه زمانی باید این بو را نادیده گرفت؟
 
 گاهی اوقات، رفتار (متدها) به صورت عمدی از داده‌ها جدا نگه داشته می‌شود. این حالت معمولاً زمانی اتفاق می‌افتد که از الگوهای طراحی خاصی مانند **Strategy** یا **Visitor** استفاده می‌شود. در این الگوها، هدف اصلی این است که بتوان رفتار را به صورت پویا و در زمان اجرا تغییر داد، بنابراین جدایی منطق از داده یک تصمیم طراحی آگاهانه است و نباید به عنوان یک بوی بد در نظر گرفته شود.
+
+---
+
+### سوال هشتم | در وبسایت ۲۹ بوی بد کد نامبرده شده است. سعی کنید ۱۰ بوی بد را در پروژه تبدیل کننده مدل به سی پیدا کنید و به آن اشاره کنید.
+
+#### ۱. کلاس بزرگ (Large Class)
+
+- **دسته:** متورم‌ها (Bloaters)
+- **توضیح:** کلاس `ClassStructure` مسئولیت‌های بسیار زیادی را بر عهده گرفته است. این کلاس علاوه بر نگهداری داده‌های مربوط به سازنده‌ها، خصوصیات و متدها، منطق مدیریت وابستگی‌ها و تولید XML را نیز در خود جای داده است و با بیش از ۳۰۰ خط کد، درک و نگهداری آن دشوار است.
+
+#### ۲. لیست پارامتر طویل (Long Parameter List)
+
+- **دسته:** متورم‌ها (Bloaters)
+- **توضیح:** تعریف کلاس `ClassStructure` از انواع ژنریک (Generic Types) بسیار طولانی و پیچیده‌ای استفاده می‌کند که خوانایی و استفاده از این کلاس را به شدت کاهش می‌دهد.
+  ```java
+  public class ClassStructure<TType extends ValueType, TAttribute extends ClassAttribute<TType>
+          , TConstructor extends ClassConstructor<TType, TAttribute>,
+          TMethod extends ClassMethod<TType, TAttribute>>
+  ```
+
+#### ۳. کد تکراری (Duplicate Code)
+
+- **دسته:** موارد قابل حذف (Dispensables)
+- **توضیح:** در متد `getElementDocument`، الگوی ایجاد یک عنصر XML و افزودن متن به آن بارها تکرار شده است. این تکرار باعث افزایش حجم کد شده و نگهداری آن را دشوار می‌کند، زیرا برای یک تغییر کوچک باید چندین بخش ویرایش شود.
+
+  ```java
+  Element name = document.createElement("name");
+  name.appendChild(document.createTextNode(getName()));
+  root.appendChild(name);
+
+  Element superClass = document.createElement("super");
+  superClass.appendChild(document.createTextNode(getSuperClass()));
+  root.appendChild(superClass);
+  ```
+
+#### ۴. کلاس خدا (God Class)
+
+- **دسته:** متورم‌ها (Bloaters)
+- **توضیح:** کلاس `Phase1CodeGenerator` یک نمونه بارز از "کلاس خدا" است که مسئولیت‌های متعددی مانند تولید فایل‌های C، هدر و C++، مدیریت ورودی/خروجی فایل‌ها و پردازش دیاگرام را به تنهایی بر عهده دارد. این تمرکز بیش از حد مسئولیت‌ها، اصل مسئولیت واحد را نقض می‌کند.
+
+#### ۵. کلاس داده (Data Class)
+
+- **دسته:** موارد قابل حذف (Dispensables)
+- **توضیح:** کلاس `ClassStructure` بیشتر به عنوان یک نگهدارنده داده با تعداد زیادی متدهای getter و setter ساده عمل می‌کند و فاقد رفتار (behavior) معنادار است. منطقی که باید درون این کلاس باشد، به کلاس‌های دیگر منتقل شده است.
+  ```java
+  public Vector<TConstructor> getConstructors() { ... }
+  public Vector<TAttribute> getAttributes() { ... }
+  public void setName(String name) { ... }
+  ```
+
+#### ۶. کامنت‌ها (Comments)
+
+- **دسته:** موارد قابل حذف (Dispensables)
+- **توضیح:** وجود کامنت‌های `TODO` نشان‌دهنده کارهای ناتمام یا تصمیمات طراحی است که به آینده موکول شده‌اند. این کامنت‌ها بدهی فنی (Technical Debt) را نشان می‌دهند و باید در اسرع وقت برطرف شوند.
+  ```java
+  ///TODO delete this and move all functions into Complete* classes
+  public class Phase1CodeGenerator { ... }
+  ```
+
+#### ۷. متد طولانی (Long Method)
+
+- **دسته:** متورم‌ها (Bloaters)
+- **توضیح:** متد سازنده (constructor) کلاس `Phase1CodeGenerator` بسیار طولانی است و وظایف متعددی از جمله ایجاد فایل‌های مختلف، نوشتن در جریان‌های خروجی (OutputStreams) و پردازش کلاس‌ها را انجام می‌دهد. این حجم از عملیات باید به متدهای کوچک‌تر و تخصصی‌تر شکسته شود.
+
+#### ۸. حسادت به ویژگی (Feature Envy)
+
+- **دسته:** جفت‌کننده‌ها (Couplers)
+- **توضیح:** در سازنده کلاس `CompleteClass`، این متد علاقه و وابستگی شدیدی به داده‌های کلاس `ClassStructure` نشان می‌دهد و به طور مکرر از متدهای getter آن برای مقداردهی فیلدهای خود استفاده می‌کند. این منطق احتمالاً باید به کلاس `ClassStructure` منتقل شود.
+  ```java
+  setName(structure.getName());
+  setSuperClass(structure.getSuperClass());
+  setHavingDestructor(structure.isHavingDestructor());
+  ```
+
+#### ۹. وسواس به انواع ابتدایی (Primitive Obsession)
+
+- **دسته:** متورم‌ها (Bloaters)
+- **توضیح:** در پروژه به جای ایجاد کلاس‌های کوچک و معنادار برای مفاهیم دامنه، از انواع داده اولیه مانند `String` و `Vector` به صورت گسترده استفاده شده است. این کار خوانایی و ایمنی نوع (Type Safety) کد را کاهش می‌دهد.
+  ```java
+  private String superClass = "null";
+  private String name;
+  private final Vector<TConstructor> constructors = new Vector<>();
+  ```
+
+#### ۱۰. کد مرده (Dead Code)
+
+- **دسته:** موارد قابل حذف (Dispensables)
+- **توضیح:** وجود کدهای کامنت‌شده (مانند `/*...*/`) یا متدهایی که احتمالاً هرگز فراخوانی نمی‌شوند (مانند `unsetSuperClass`)، کدبیس را شلوغ کرده و درک آن را برای توسعه‌دهندگان دشوار می‌کند. این بخش‌های غیرضروری باید حذف شوند.
+  ```java
+  public void unsetSuperClass() {
+      /*...*/
+  }
+  ```
