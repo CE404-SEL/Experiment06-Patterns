@@ -804,3 +804,16 @@ public class EnergyManagementSystem
 - **تمرکز Refactoring:** ریفکتورینگ یک فرآیند عمیق‌تر است که بر روی **بهبود ساختار داخلی و طراحی** کد تمرکز دارد، بدون اینکه رفتار خارجی آن تغییر کند. هدف ریفکتورینگ، کاهش پیچیدگی، حذف کدهای تکراری، و بهبود طراحی برای ساده‌سازی نگهداری و توسعه آینده است (مانند رفع بوهای بد کد).
 
 **ارتباط اصلی این دو مفهوم** در این است که قالب‌بندی خودکار کد (Formatting) اغلب به عنوان **پیش‌نیاز یا اولین قدم در فرآیند ریفکتورینگ** در نظر گرفته می‌شود. وقتی کد از نظر ظاهری تمیز و یکپارچه باشد، درک ساختار آن برای توسعه‌دهنده آسان‌تر می‌شود و او می‌تواند با دید بهتری مشکلات عمیق‌تر طراحی را شناسایی کرده و فرآیند ریفکتورینگ را آغاز کند. به عبارت دیگر، `formatter` کد را برای ریفکتورینگ آماده می‌کند.
+
+---
+
+### منابع
+
+برخی منابع استفاده شده به صورت زیر است:
+
+- [Refactoring Guru](https://refactoring.guru/)
+- [DigitalOcean - SOLID Principles](https://www.digitalocean.com/community/tutorials/s-o-l-i-d-the-first-five-principles-of-object-oriented-design)
+- [Strategy vs State Pattern](https://medium.com/@iamprovidence/strategy-vs-state-pattern-6168cc102c91)
+- [The Ultimate Guide to Code Formatters Plugin in VS Code](https://aidilfitra.medium.com/the-ultimate-guide-to-code-formatters-plugin-in-vs-code-every-language-one-editor-3457d248b5d1)
+
+در پاسخ به سوالات از هوش مصنوعی‌های مختلف کمک گرفته شده است.
