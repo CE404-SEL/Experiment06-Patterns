@@ -1,35 +1,36 @@
 package MiniJava.codeGenerator;
+import MiniJava.codeGenerator.typeAddress.Direct;
+import MiniJavacodeGenerator.typeAddress.TypeAddress;
 
 /**
  * Created by mohammad hosein on 6/28/2015.
  */
-
-public class Address {
-    public int num;
-    public TypeAddress Type;
-    public varType varType;
+@@ -11,25 +14,21 @@ public class Address {
 
     public Address(int num, varType varType, TypeAddress Type) {
         this.num = num;
-        this.Type = Type;
+
         this.varType = varType;
+        this.Type = Type;
     }
 
     public Address(int num, varType varType) {
         this.num = num;
-        this.Type = TypeAddress.Direct;
+
         this.varType = varType;
+        this.Type = new Direct();
     }
 
     public String toString() {
-        switch (Type) {
-            case Direct:
-                return num + "";
-            case Indirect:
-                return "@" + num;
-            case Imidiate:
-                return "#" + num;
+        if (Type == null) {
+            return num + "";
+
+
+
+
+
         }
-        return num + "";
+
+        return Type.toString(num);
     }
 }
