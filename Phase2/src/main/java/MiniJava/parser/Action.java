@@ -11,6 +11,10 @@ public class Action {
         this.number = number;
     }
 
+    public act getAction() {
+        return action;
+    }
+
     public String toString() {
         switch (action) {
             case accept:
