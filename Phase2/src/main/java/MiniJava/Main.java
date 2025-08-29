@@ -7,14 +7,11 @@ import MiniJava.errorHandler.ErrorHandler;
 import MiniJava.parser.Parser;
 
 
+import MiniJava.parser.ParserFacade;
+
 public class Main {
     public static void main(String[] args) {
-        Parser parser = new Parser();
-        try {
-            // start parsing
-            parser.startParse(new Scanner(new File("src/main/resources/code")));
-        } catch (FileNotFoundException e) {
-            ErrorHandler.printError(e.getMessage());
-        }
+        ParserFacade parserFacade = new ParserFacade();
+        parserFacade.parse("src/main/resources/code");
     }
 }
