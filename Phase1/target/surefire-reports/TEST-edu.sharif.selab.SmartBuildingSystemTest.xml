@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21\bin"/>
-    <property name="sun.java.command" value="C:\Users\moeei\AppData\Local\Temp\surefire13358756065505737501\surefirebooter-20250829175641052_3.jar C:\Users\moeei\AppData\Local\Temp\surefire13358756065505737501 2025-08-29T17-56-40_946-jvmRun1 surefire-20250829175641052_1tmp surefire_0-20250829175641052_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\moeei\AppData\Local\Temp\surefire8666716194369185816\surefirebooter-20250829190843151_3.jar C:\Users\moeei\AppData\Local\Temp\surefire8666716194369185816 2025-08-29T19-08-43_033-jvmRun1 surefire-20250829190843151_1tmp surefire_0-20250829190843151_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="D:\Github\CE-Course\Experiment06-Patterns\Phase1\target\test-classes;D:\Github\CE-Course\Experiment06-Patterns\Phase1\target\classes;C:\Users\moeei\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.1\junit-jupiter-engine-5.9.1.jar;C:\Users\moeei\.m2\repository\org\junit\platform\junit-platform-engine\1.9.1\junit-platform-engine-1.9.1.jar;C:\Users\moeei\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\moeei\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.1\junit-jupiter-api-5.9.1.jar;C:\Users\moeei\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\moeei\.m2\repository\org\junit\platform\junit-platform-commons\1.9.1\junit-platform-commons-1.9.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\moeei\AppData\Local\Temp\surefire13358756065505737501\surefirebooter-20250829175641052_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\moeei\AppData\Local\Temp\surefire8666716194369185816\surefirebooter-20250829190843151_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.2+13-LTS-58"/>
@@ -59,13 +59,13 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="shutdown_anyTariff_cost_zero" classname="edu.sharif.selab.SmartBuildingSystemTest" time="0.005">
-    <system-out><![CDATA[حالت Shutdown: همه سیستم‌ها خاموش‌اند.
+  <testcase name="shutdown_anyTariff_cost_zero" classname="edu.sharif.selab.SmartBuildingSystemTest" time="0.004">
+    <system-out><![CDATA[Shutdown state: all systems are off.
 ]]></system-out>
   </testcase>
   <testcase name="active_standard_10units_cost_5000" classname="edu.sharif.selab.SmartBuildingSystemTest" time="0.001"/>
-  <testcase name="eco_green_10units_cost_1500" classname="edu.sharif.selab.SmartBuildingSystemTest" time="0.003">
-    <system-out><![CDATA[حالت اقتصادی (Eco): فقط سیستم‌های حیاتی روشن هستند.
+  <testcase name="eco_green_10units_cost_1500" classname="edu.sharif.selab.SmartBuildingSystemTest" time="0.004">
+    <system-out><![CDATA[Eco state: only essential systems are running.
 ]]></system-out>
   </testcase>
 </testsuite>
